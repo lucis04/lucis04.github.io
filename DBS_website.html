@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FU: DBS - Datenbankprojekt</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("images/html_background.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: blur(5px);
+            z-index: -1;
+        }
+        h1 {
+            font-size: 1.75em;
+            text-align: center;
+            margin-top: 1em;
+        }
+        .container {
+            width : 70%;  
+            margin: 1.5em auto;
+            padding: 1.5em;
+            background-color: #ffffff;
+            border-radius: 0.7em;
+        }
+        .menu {
+            background-color: #072A40;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+        .menu li {
+            margin: 0 3em;
+        }
+        .menu li a {
+            color: #F9F7F0;
+            text-decoration: none;
+            font-size: 1.5em;
+            padding: 0.5em 1em;
+            display: block;  
+        }
+        .menu li a:hover {
+            background-color: #F9F7F0;
+            color: #072A40;
+        }
+        .menu img {
+            height: 60px;
+        }
+        img {
+            display: block;
+            margin: 0 auto;
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 100%;
+            height: auto;
+        }
+        .image-container {
+            display: flex;
+            justify-content: space-between; /* Space images evenly */
+            gap: 1em; /* Optional: Add space between images */
+        }
+        .image-container img {
+            max-width: 48%; /* Ensure images fit within the container */
+            height: 48%;
+        }
+        .toolbar {
+            background-color: #072A40;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+        }
+        .toolbar-item {
+            margin: 0.5em;
+            padding: 0.5em 1em;
+            text-decoration: none;
+            color: white;
+            text-align: center;
+        }
+        .toolbar-item:hover {
+            background-color: #F9F7F0;
+            transition: background-color 0.3s;
+            color: #072A40;
+        }
+        .logo img {
+            margin: auto;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 80%;
+                padding: 1em;
+            }
+            .menu {
+                flex-direction: row;
+            }
+            .menu li {
+                margin: 1em 0;
+            }
+            .menu li a {
+                font-size: 1.2em;
+            }
+            .image-container {
+                flex-direction: column;
+            }
+            .image-container img {
+                max-width: 100%;
+            }
+            .menu img {
+                height: 40px;
+            }
+            .toolbar-item {
+                margin: 0.5em;
+                padding: 0.5em 0.5em;
+            }
+        }
+        @media (max-width: 480px) {
+            .menu li {
+                margin: 0.5em 0;
+            }
+            .menu li a {
+                font-size: 1em;
+            }
+            .toolbar-item {
+                padding: 0.5em;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <ul class="menu">
+            <li class="logo">
+                <a href="https://www.fu-berlin.de/">
+                    <img src="images/fu_logo.png" alt="FU Berlin">
+                </a>
+            </li>
+            <li><a href="https://www.fu-berlin.de/">Freie Universität Berlin</a></li>
+            <li><a href="#contact">Kontakt</a></li>
+        </ul>
+    </nav>
+
+    <div id="home" class="container">
+        <h1>Datenbank-Projekt</h1>
+        <h1>Geographische Verteilung von Studierenden in Deutschland</h1>
+        <section>
+            <h2>Einleitung</h2>
+            <h3>Im Rahmen eines, im Vergleich zu vorherigen Aufgaben, umfangreicheren Abschlussprojekts 
+            des Moduls "DBS - Datenbanksysteme" werden die Ergebnisse des Projekts anschaulich visualisiert 
+            und dokumentiert.</p>
+        </section>
+        <section>
+            <h2>Projektbeschreibung</h2>
+            <p>Die Ausgangslage umfasst zwei Datentabellen "Hochschulen" und "Bevölkerung". Diese liegen im 
+                .csv-Format vor und erhalten Daten wie: Hochschulname, Bundesland, Stadt, Postleitzahl, 
+                Straße, Anzahl Studierende, etc. & für die Bevölkerung: Bundesland, Stadt, Postleitzahl, 
+                Anzahl Einwohner, etc.
+            </p>
+            <h3>Projektziele</h3>
+            <ul>
+                <li>Bereinigung der Datensätze für Datenbank-Konsistenz</li>
+                <li>Importierung der Datensätze in eine Postgre-Datenbank</li>
+                <li>SQL-Abfragen für relevante Informationen aus den Relationen</li>
+                <li>Visualisierung der sinnvollen SQL-Abfragen</li>
+                <li>Erstellung einer Webseite zur Dokumentation des Projekts</li>
+            </ul>
+            <div class="image-container">
+                <img src="images/hochschulen.png" alt="Hochschulen.csv">
+                <img src="images/bevölkerung.png" alt="Bevölkerung.csv">
+            </div>
+        </section>
+        <section>
+            <h2>Datenbereinigung</h2>
+            <p>Die Datenbereinigung umfasst die Entfernung von Duplikaten, die Korrektur von 
+                Schreibfehlern (auch in Hinsicht auf korrekte Kodierung wie UTF-8), Entfernen von 
+                unvollständigen Datensätzen und die Anpassung von Datentypen.
+            </p>
+            <img src="images/dataclean_bevölkerung.png" alt="Datenbereinigung mit Python">
+        </section>
+        <section>
+            <h2>Importierung der Datensätze</h2>
+            <p>Die Datensätze werden in eine Postgre-Datenbank importiert. Hierbei wird auf die 
+                Einhaltung von Integritätsbedingungen geachtet. Dabei wurde PostgreSQL 16 mit pgAdmin 4 
+                verwendet.
+            </p>
+            <img src="images/postgre.png" alt="Importierung der Datensätze in Postgre">
+        </section>
+        <section>
+            <h2>SQL-Abfragen</h2>
+            <p>Die SQL-Abfragen umfassen die Extraktion von relevanten Informationen aus den Relationen 
+                "Hochschulen" und "Bevölkerung". Ich habe mich für zwei Abfragen entschieden, welche 
+                zum einen die Anzahl der Studierenden pro Ort und zum anderen die Anzahl der Studierenden 
+                pro Ort im Vergleich zur Einwohnerzahl (prozentual) darstellen.
+            </p>
+            <img src="" alt="SQL-Abfragen">
+        </section>
+        <section>
+            <h2>Visualisierung</h2>
+            <p>Die Visualisierung der SQL-Abfragen erfolgt mittels Python und der Bibliothek Geopandas und 
+                Matplotlib. Die Visualisierung erfolgt in Form einer Karte von Deutschland mit Punktmarkierungen 
+                oder als Heatmap.
+            </p>
+            <div class="image-container">
+                <img src="images/map1(punkte).png" alt="Punktkarte ">
+                <img src="images/map2(heat).png" alt="Heatmap">
+            </div>
+        </section>
+    </div>
+
+    <div id="about" class="container">
+        <h1>Über mich: Lukas G.</h1>
+        <img src="images/IMG-20230528-WA0041.jpg" style="width: 15rem; height: auto;" alt="eigenes Portrait-Bild">
+        <section>
+            <h2>Studium</h2>
+            <p>Ich studiere Informatik an der Freien Universität Berlin und befinde mich im 5. Semester (WiSe 24/25)
+                meines Bachelor-Studiums. Im Rahmen des Moduls "DBS - Datenbanksysteme" habe ich mich 
+                intensiv mit der Erstellung und Verwaltung von Datenbanken auseinandergesetzt. Dabei war 
+                zum Bestehen des Moduls neben der Hauptklausur ein umfangreiches eigenes Projekt umzusetzen, wobei 
+                das ganze gelernte Wissen des Moduls praktisch angewendet werden sollte.
+            </p>
+            <h2>Projektarbeit</h2>
+            <p>Das Datenbankprojekt hat mir einen Einblick in die Welt der Datenbanken gegeben und mir 
+                gezeigt, wie wichtig eine strukturierte und saubere Datenverwaltung ist. Ich habe viel 
+                über die Bedeutung von Datenkonsistenz und -integrität gelernt. Dabei habe ich auch gelerntes 
+                Wissen aus dem aktuellem Modul "Nichtsequentielle, parallele und verteilte Programmierung" in 
+                der Praxis angewendet, in dem ich ein verteiltes System, in dem Fall eine Webseite, mittels 
+                HTML, CSS und JavaScript erstellt habe, um meine Projektergebnisse vorzustellen.
+            </p>
+        </section>
+    </div>
+
+    <footer id="contact" class = "container">
+        <h3>Kontaktadresse</h4>
+        <address>
+            <strong>Freie Universität Berlin</strong>
+            <br> Institut für Meteorologie
+            <br> Carl-Heinrich-Becker-Weg 6-10
+            <br> 12165 Berlin
+        </address>
+    </footer>
+    <nav class="toolbar">
+        <a href="#home" class="toolbar-item">Home</a>
+        <a href="#about" class="toolbar-item">Über mich</a>
+        <a href="#contact" class="toolbar-item">Kontakt</a> 
+    </nav>
+
+    <script>
+        document.getElementById('home').style.display = 'block';
+        document.getElementById('about').style.display = 'none';
+
+        document.querySelectorAll('.toolbar-item').forEach(link => {
+            link.addEventListener('click', handlePageNavigation);
+        });
+
+        document.querySelectorAll('.menu li a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                if (this.getAttribute('href') === '#contact') {
+                    event.preventDefault();
+                    handlePageNavigation();
+                }
+            });
+        });
+        
+        function handlePageNavigation(event) {
+            event.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            document.querySelectorAll('.container').forEach(section => {
+                if (section.id !== 'contact') {
+                    section.style.display = 'none';
+                }
+            });
+            document.getElementById(targetId).style.display = 'block';
+        }
+    </script>
+</body>
+</html>
