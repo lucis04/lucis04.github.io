@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Lukas G.">
+    <title>FU: DBS - Datenbankprojekt</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /** eigene Styles, falls mit Bootstrap nicht möglich **/
+        html {
+            height: 100%;
+        }
+        body {
+            height: 100%;
+            background: url('images/html_background.png') no-repeat center center fixed;
+            -moz-background-size: cover;
+            background-size: cover;
+            -o-background-size: cover;
+            -webkit-background-size: cover;
+        }
+        nav {
+            box-shadow: 0px 10px 20px -1px rgba(0, 0, 0, 0.285); /* Schatten von navbar nach unten */
+        }
+        img {
+            margin-bottom: 2em;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Schatten um Bilder */
+        }
+        #home, #about, #contact {
+            background-color:rgb(255, 255, 255); /* Hintergrundfarbe des Hauptcontainers vor dem Hintergrund*/
+            border-radius: 0.7em;
+        }
+        #footer {
+            background-color:rgb(81, 81, 81); /* Hintergrundfarbe des Fußbereichs vor dem Hintergrund*/
+        }
+        #footer .nav-link, .text-center {
+            color: white !important; /* Override Bootstrap's default color */
+        }
+        #footer .nav-link:hover {
+            color: lightgrey!important; /* Override Bootstrap's default color */
+        }
+        .display-4, .display-6 {
+            color: black !important;
+        }
+        .section-heading {
+            background-color: #dadada; /* Light background color */
+            padding: 1rem; /* Add padding */
+            border-radius: 0.5rem; /* Rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- Navbar -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light" id="navbar_id"> <!-- sticky-top damit beim scrollen fixiert -->
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://www.fu-berlin.de/">
+                <img src="images/FU_Logo.png" alt="FU Berlin" style="margin-bottom: 0em; height: 40px;">
+            </a>
+            <button class="navbar-toggler" id="hamburger_menu_button" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.fu-berlin.de/">Freie Universität Berlin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" role="tab" aria-controls="home" aria-selected="false" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="about-tab" data-bs-toggle="tab" role="tab" aria-controls="about" aria-selected="false" href="#about">Über mich</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="contact-tab" data-bs-toggle="tab" role="tab" aria-controls="contact" aria-selected="false"href="#contact">Kontakt</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <script>
+        // schließt mobile Navbar, wenn außerhalb geklickt wird -> benötigt entsprechende ID für äußerste Navbar-Klasse, und ID für Button und dessen Target
+        window.onload = function () {
+            document.addEventListener("click", function (event) {
+            // if the clicked element isn't child of the navbar, you must close it if is open
+            if (!event.target.closest("#navbar_id") && document.getElementById("navbarNav").classList.contains("show")) {
+                document.getElementById("hamburger_menu_button").click();
+            }
+        });
+        }
+    </script>
+
+    <!-- Homepage -->
+    <div id="home" class="container border">
+        <h1 class="display-4 text-center fst-italic my-4">Datenbank-Projekt</h1>
+        <h2 class="display-6 text-center mb-4">Geographische Verteilung von Studierenden in Deutschland</h2>
+        <section class="section-heading">
+            <h2>Einleitung</h2>
+            <h4>Im Rahmen eines, im Vergleich zu vorherigen Aufgaben, umfangreicheren Abschlussprojekts 
+            des Moduls "DBS - Datenbanksysteme" werden die Ergebnisse des Projekts anschaulich visualisiert 
+            und dokumentiert.</h4>
+        </section>
+        <section>
+            <h2 style="padding-top: 2em;">Projektbeschreibung</h2>
+            <p>Die Ausgangslage umfasst zwei Datentabellen <mark>"Hochschulen"</mark> und <mark>"Bevölkerung"</mark>. Diese liegen im 
+                .csv-Format vor und erhalten Daten wie: Hochschulname, Bundesland, Stadt, Postleitzahl, 
+                Straße, Anzahl Studierende, etc. & für die Bevölkerung: Bundesland, Stadt, Postleitzahl, 
+                Anzahl Einwohner, etc.
+            </p>
+            <h2>Projektziele</h2>
+            <ul>
+                <li>Bereinigung der Datensätze für Datenbank-Konsistenz</li>
+                <li>Importierung der Datensätze in eine Postgre-Datenbank</li>
+                <li>SQL-Abfragen für relevante Informationen aus den Relationen</li>
+                <li>Visualisierung der sinnvollen SQL-Abfragen</li>
+                <li>Erstellung einer Webseite zur Dokumentation des Projekts</li>
+            </ul>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <img class="img-fluid clickable" src="images/hochschulen.png" alt="Hochschulen.csv">
+                </div>
+                <div class="col-md-6">
+                    <img class="img-fluid clickable" src="images/bevölkerung.png" alt="Bevölkerung.csv">
+                </div>
+            </div>
+        </section>
+        <section>
+            <h2>Datenbereinigung</h2>
+            <p>Die Datenbereinigung umfasst die Entfernung von Duplikaten, die Korrektur von 
+                Schreibfehlern (auch in Hinsicht auf korrekte Kodierung wie <u>UTF-8</u>), Entfernen von 
+                unvollständigen Datensätzen und die Anpassung von Datentypen.
+            </p>
+            <img class="img-fluid clickable" src="images/dataclean_bevölkerung.png" alt="Datenbereinigung mit Python">
+        </section>
+        <section>
+            <h2>Importierung der Datensätze</h2>
+            <p>Die Datensätze werden in eine Postgre-Datenbank importiert. Hierbei wird auf die 
+                Einhaltung von Integritätsbedingungen geachtet. Dabei wurde <u>PostgreSQL 16 mit pgAdmin 4</u> 
+                verwendet.
+            </p>
+            <img class="img-fluid clickable" src="images/postgre.png" alt="Importierung der Datensätze in Postgre">
+        </section>
+        <section>
+            <h2>SQL-Abfragen</h2>
+            <p>Die SQL-Abfragen umfassen die Extraktion von relevanten Informationen aus den Relationen 
+                "Hochschulen" und "Bevölkerung". Ich habe mich für zwei Abfragen entschieden, welche 
+                zum einen die Anzahl der Studierenden pro Ort und zum anderen die Anzahl der Studierenden 
+                pro Ort im Vergleich zur Einwohnerzahl (prozentual) darstellen.
+            </p>
+            <img src="" alt="SQL-Abfragen">
+        </section>
+        <section>
+            <h2>Visualisierung</h2>
+            <p>Die Visualisierung der SQL-Abfragen erfolgt mittels <mark>Python</mark> und der Bibliothek 
+                <u>Geopandas und Matplotlib</u>. Die Visualisierung erfolgt in Form einer Karte von Deutschland mit Punktmarkierungen 
+                oder als Heatmap.
+            </p>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <img class="img-fluid clickable" src="images/map1(punkte).png" alt="Punktkarte ">
+                </div>
+                <div class="col-md-6">
+                    <img class="img-fluid clickable" src="images/map2(heat).png" alt="Heatmap">
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Über mich -->
+    <div id="about" class="container">
+        <h1>Über mich: Lukas G.</h1>
+        <img class="img-fluid rounded mx-auto d-block clickable" src="images/IMG-20230528-WA0041.jpg" style="width: 15rem; height: auto; " alt="eigenes Portrait-Bild">
+        <section>
+            <h2>Studium</h2>
+            <p>Ich studiere Informatik an der Freien Universität Berlin und befinde mich im 5. Semester (WiSe 24/25)
+                meines Bachelor-Studiums. Im Rahmen des Moduls "DBS - Datenbanksysteme" habe ich mich 
+                intensiv mit der Erstellung und Verwaltung von Datenbanken auseinandergesetzt. Dabei war 
+                zum Bestehen des Moduls neben der Hauptklausur ein umfangreiches eigenes Projekt umzusetzen, wobei 
+                das ganze gelernte Wissen des Moduls praktisch angewendet werden sollte.
+            </p>
+            <h2>Projektarbeit</h2>
+            <p>Das Datenbankprojekt hat mir einen Einblick in die Welt der Datenbanken gegeben und mir 
+                gezeigt, wie wichtig eine strukturierte und saubere Datenverwaltung ist. Ich habe viel 
+                über die Bedeutung von Datenkonsistenz und -integrität gelernt. Dabei habe ich auch gelerntes 
+                Wissen aus dem aktuellem Modul "Nichtsequentielle, parallele und verteilte Programmierung" in 
+                der Praxis angewendet, in dem ich ein verteiltes System, in dem Fall eine Webseite, mittels 
+                HTML, CSS und JavaScript erstellt habe, um meine Projektergebnisse vorzustellen.
+            </p>
+        </section>
+    </div>
+
+    <!-- Kontakt -->
+    <footer id="contact" class = "container">
+        <h3>Kontaktadresse</h3>
+        <address>
+            <strong>Freie Universität Berlin</strong>
+            <br> Institut für Informatik
+            <br> Takustraße 9
+            <br> 14195 Berlin
+        </address>
+    </footer>
+
+    <!-- Modal Structure for enlarging images -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">Bild</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" class="img-fluid" src="" alt="Enlarged Image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer" class="container-fluid">
+        <footer class="py-3 my-4">
+          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item"><a href="#home" class="nav-link px-2 text-body-secondary">Home</a></li>
+            <li class="nav-item"><a href="#about" class="nav-link px-2 text-body-secondary">Über mich</a></li>
+            <li class="nav-item"><a href="#contact" class="nav-link px-2 text-body-secondary">Kontakt</a></li>
+          </ul>
+          <p class="text-center text-body-secondary">© 2024 Lukas G.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Hide all sections except home
+        document.getElementById('home').style.display = 'block';
+        document.getElementById('about').style.display = 'none';
+        document.getElementById('contact').style.display = 'none';
+
+        // Add event listeners to navigation links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', handlePageNavigation);
+        });
+        // Add event listener to contact link
+        document.querySelectorAll('.navbar-nav li a').forEach(link => {
+            link.addEventListener('click', function(event) {
+                if (this.getAttribute('href') === '#contact') {
+                    event.preventDefault();
+                    handlePageNavigation(event);
+                }
+            });
+        });
+        // Function to handle page navigation
+        function handlePageNavigation(event) {
+            event.preventDefault();
+            const targetId = this.getAttribute('href').substring(1);
+            document.querySelectorAll('.container').forEach(section => { // Hide all sections
+                section.style.display = 'none';
+            });
+            document.getElementById(targetId).style.display = 'block'; // Show target section
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top of page
+        }
+
+        // Add event listeners to images to open modal
+        document.querySelectorAll('.clickable').forEach(img => {
+            img.addEventListener('click', function() {
+                const modalImage = document.getElementById('modalImage');
+                modalImage.src = this.src;
+                const imageModal = new bootstrap.Modal(document.getElementById('imageModal'));
+                imageModal.show();
+            });
+        });
+    </script>
+</body>
+</html>
